@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOMA API",
+    "version": "2.0.0",
+    "description": "API SOMA para autenticación, usuarios y monitoreo/reportes de autoclaves. El documento OpenAPI se sirve en /api-docs."
+  },
+  "servers": [{ "url": "http://localhost:5000", "description": "Backend local SOMA" }],
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "summary": "Registrar usuario",
+        "tags": ["Auth"],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["username", "email", "password"], "properties": { "username": { "type": "string" }, "email": { "type": "string", "format": "email" }, "password": { "type": "string" }, "roles": { "type": "array", "items": { "type": "string", "enum": ["user", "moderator", "admin"] } } } } } } },
+        "responses": { "200": { "description": "Usuario registrado" }, "400": { "description": "Datos duplicados o inválidos" } }
+      }
+    },
+    "/api/auth/signin": {
+      "post": {
+        "summary": "Iniciar sesión",
+        "tags": ["Auth"],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["username", "password"], "properties": { "username": { "type": "string" }, "password": { "type": "string" } } } } } },
+        "responses": { "200": { "description": "Token y perfil del usuario" }, "401": { "description": "Credenciales inválidas" }, "404": { "description": "Usuario no encontrado" } }
+      }
+    },
+    "/api/auth/loggedIn": {
+      "get": { "summary": "Verificar token de sesión", "tags": ["Auth"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "true si el token es válido, false si no lo es" } } }
+    },
+    "/api/users": {
+      "get": { "summary": "Listar usuarios", "tags": ["Users"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Usuarios con sus roles" } } }
+    },
+    "/api/lotes": {
+      "get": {
+        "summary": "Listar lotes de autoclaves",
+        "tags": ["Autoclaves"],
+        "security": [{ "x-access-token": [] }],
+        "parameters": [
+          { "name": "autoclaveId", "in": "query", "schema": { "type": "integer", "enum": [1, 2] } },
+          { "name": "estado", "in": "query", "schema": { "type": "integer", "enum": [1, 2, 3] } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 200, "default": 50 } }
+        ],
+        "responses": { "200": { "description": "Lotes ordenados por inicio descendente" }, "400": { "description": "Filtros inválidos" } }
+      }
+    },
+    "/api/lotes/{loteId}/curva": {
+      "get": { "summary": "Curva de telemetría del lote", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "parameters": [{ "name": "loteId", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Muestras cronológicas" }, "400": { "description": "Código requerido" } } }
+    },
+    "/api/lotes/{loteId}/reporte": {
+      "get": { "summary": "Reporte consolidado del lote", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "parameters": [{ "name": "loteId", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "200": { "description": "Cabecera, fases y métricas" }, "404": { "description": "Lote no encontrado" } } }
+    },
+    "/api/autoclaves/estado-actual": {
+      "get": { "summary": "Estado actual de ambos autoclaves", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Lotes activos y última telemetría por máquina" } } }
+    },
+    "/api/autoclaves/referencias": {
+      "get": { "summary": "Catálogos de fases, estados y máquinas", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Contenido de refFases, refEstados y refMaquinas" } } }
+    },
+    "/api/refFases": {
+      "get": { "summary": "Listar fases PLC", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Documentos de refFases ordenados por faseNum" } } }
+    },
+    "/api/refEstados": {
+      "get": { "summary": "Listar estados de lote", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Documentos de refEstados ordenados por estadoId" } } }
+    },
+    "/api/refMaquinas": {
+      "get": { "summary": "Listar autoclaves", "tags": ["Autoclaves"], "security": [{ "x-access-token": [] }], "responses": { "200": { "description": "Documentos de refMaquinas ordenados por autoclaveId" } } }
+    }
+  },
+  "components": {
+    "securitySchemes": { "x-access-token": { "type": "apiKey", "in": "header", "name": "x-access-token" } }
+  },
+  "tags": [
+    { "name": "Auth", "description": "Autenticación de usuarios" },
+    { "name": "Users", "description": "Administración de usuarios" },
+    { "name": "Autoclaves", "description": "Telemetría y trazabilidad definida en el esquema db-soma" }
+  ]
+}
