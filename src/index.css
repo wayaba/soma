@@ -42,5 +42,6 @@ button, input {
   }
   .screen-only { display: none !important; }
   .report-print-area article, .report-print-area section { break-inside: avoid; box-shadow: none !important; }
-  .report-print-area svg { max-width: 100%; }
+  .curve-chart { width: 100% !important; overflow: visible !important; }
+  .curve-chart-svg { width: 100% !important; min-width: 0 !important; height: auto !important; max-width: 100% !important; }
 }

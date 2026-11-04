@@ -28,7 +28,8 @@ export interface PuntoTelemetria {
 
 export interface ReferenciaFase { _id: number; faseNum: number; nombre: string; activo: boolean }
 export interface ReferenciaEstado { _id: number; estadoId: number; codigo: string; nombre: string; descripcion: string; color: string }
-export interface ReferenciaMaquina { _id: number; autoclaveId: number; codigo: string; nombre: string; descripcion: string; activo: boolean }
+export interface ReferenciaSensor { clave: string; nombre: string; unidad: string; rangoMin?: number; rangoMax?: number }
+export interface ReferenciaMaquina { _id: number; autoclaveId: number; codigo: string; nombre: string; descripcion?: string; activo?: boolean; sensores?: ReferenciaSensor[] }
 export interface ReferenciasAutoclaves {
   fases: ReferenciaFase[]
   estados: ReferenciaEstado[]

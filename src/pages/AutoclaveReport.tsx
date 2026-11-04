@@ -287,7 +287,7 @@ export default function AutoclaveReport() {
           <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
             <SectionHeading title="Curva del ciclo" subtitle={`${puntos.length.toLocaleString('es-AR')} muestras · hora local de Argentina`} />
             {curveError && <p role="status" className="mb-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{curveError}</p>}
-            {puntos.length ? <AutoclaveCurve puntos={puntos} /> : <div className="grid h-64 place-items-center rounded-lg bg-slate-50 text-center text-sm text-slate-500">No hay puntos de telemetría disponibles para este lote.</div>}
+            {puntos.length ? <AutoclaveCurve puntos={puntos} sensores={referencias?.maquinas.find((machine) => machine.autoclaveId === reporte.cabecera.autoclaveId)?.sensores} /> : <div className="grid h-64 place-items-center rounded-lg bg-slate-50 text-center text-sm text-slate-500">No hay puntos de telemetría disponibles para este lote.</div>}
           </section>
 
           <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
