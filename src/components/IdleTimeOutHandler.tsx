@@ -43,7 +43,7 @@ const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
       clearTimeout(timer.current)
     }
     timer.current = setTimeout(() => {
-      let lastInteractionTime = localStorage.getItem('SOMAEXPIREDTIME') ?? localStorage.getItem('ETICOSEXPIREDTIME')
+      let lastInteractionTime = localStorage.getItem('SOMAEXPIREDTIME')
       if (!lastInteractionTime) {
         localStorage.setItem('SOMAEXPIREDTIME', moment().toISOString())
         lastInteractionTime = localStorage.getItem('SOMAEXPIREDTIME')
@@ -60,8 +60,6 @@ const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
           if (timer.current) clearTimeout(timer.current)
           localStorage.removeItem('somauser')
           localStorage.removeItem('SOMAEXPIREDTIME')
-          localStorage.removeItem('eticosuser')
-          localStorage.removeItem('ETICOSEXPIREDTIME')
           getLoggedIn()
           navigate('/', { replace: true })
         }

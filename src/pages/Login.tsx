@@ -34,7 +34,6 @@ const Login = () => {
       try {
         await authService.login(username, password)
         localStorage.removeItem('SOMAEXPIREDTIME')
-        localStorage.removeItem('ETICOSEXPIREDTIME')
         // Si tienes una función para actualizar el contexto de usuario, úsala aquí
         if (authContext.getLoggedIn) authContext.getLoggedIn()
         navigate('/dashboard', { replace: true })
@@ -99,11 +98,7 @@ const Login = () => {
               {errors.password && <ErrorMsg message={errors.password} />}
             </div>
             <div className="mt-8 flex justify-center text-lg text-black">
-              <button
-                type="submit"
-                className="brand-button rounded-3xl px-10 py-2"
-                disabled={loading}
-              >
+              <button type="submit" className="brand-button rounded-3xl px-10 py-2" disabled={loading}>
                 {loading ? (
                   <div className="flex items-center gap-2">
                     <span className="inline-block w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></span>

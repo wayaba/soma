@@ -14,7 +14,6 @@ export const authService = {
       .then((response: AxiosResponse<User>) => {
         if (response.data.accessToken) {
           localStorage.setItem('somauser', JSON.stringify(response.data))
-          localStorage.removeItem('eticosuser')
         }
         return response.data
       })
@@ -23,8 +22,6 @@ export const authService = {
   logout(): void {
     localStorage.removeItem('somauser')
     localStorage.removeItem('SOMAEXPIREDTIME')
-    localStorage.removeItem('eticosuser')
-    localStorage.removeItem('ETICOSEXPIREDTIME')
   },
 
   register(username: string, email: string, password: string) {
@@ -37,10 +34,7 @@ export const authService = {
 
   getCurrentUser(): User | null {
     const current = localStorage.getItem('somauser')
-    const legacy = localStorage.getItem('eticosuser')
-    if (!current && legacy) localStorage.setItem('somauser', legacy)
-    const user = current ?? legacy
-    return user ? JSON.parse(user) : null
+    return current ? JSON.parse(current) : null
   },
 
   loggedIn(): Promise<AxiosResponse<any>> {

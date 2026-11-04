@@ -8,8 +8,6 @@ const LogOutBtn = () => {
   const logOut = () => {
     localStorage.removeItem('somauser')
     localStorage.removeItem('SOMAEXPIREDTIME')
-    localStorage.removeItem('eticosuser')
-    localStorage.removeItem('ETICOSEXPIREDTIME')
     context?.getLoggedIn && context.getLoggedIn()
   }
 
