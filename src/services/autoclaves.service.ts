@@ -1,7 +1,7 @@
 import axios from 'axios'
 import authHeader from './auth-header'
 import { env } from '@/lib/env'
-import type { EstadoAutoclave, PuntoTelemetria, ReporteLote } from '@/types/autoclaves'
+import type { EstadoAutoclave, FiltrosLotes, Lote, PuntoTelemetria, ReferenciasAutoclaves, ReporteLote } from '@/types/autoclaves'
 
 const api = axios.create({ baseURL: env.BACKEND_URI })
 
@@ -21,6 +21,21 @@ export const getReporteLote = async (loteId: string) => {
 
 export const getEstadoAutoclaves = async () => {
   const { data } = await api.get<EstadoAutoclave>('/api/autoclaves/estado-actual', {
+    headers: authHeader(),
+  })
+  return data
+}
+
+export const getLotes = async (filters: FiltrosLotes = {}) => {
+  const { data } = await api.get<Lote[]>('/api/lotes', {
+    headers: authHeader(),
+    params: filters,
+  })
+  return data
+}
+
+export const getReferenciasAutoclaves = async () => {
+  const { data } = await api.get<ReferenciasAutoclaves>('/api/autoclaves/referencias', {
     headers: authHeader(),
   })
   return data

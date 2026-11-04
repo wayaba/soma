@@ -1,80 +1,24 @@
-import { useEffect, useState } from 'react'
-import Piece from '@/svg/Piece'
-import Card from '@/components/ui/Card'
 import { Link } from 'react-router-dom'
 
-const Dashboard = () => {
-  const [loading, setLoading] = useState(false)
-  const [hasError, setHasError] = useState(false)
-
-  // Lógica para obtener el contenido actualizado, por ejemplo, una llamada a una API
-  const fetchContent = async () => {
-    setLoading(true)
-    setHasError(false)
-    try {
-      //const response = await datoActualService.getDatoActual()
-      //setDatoActual(response.data[0])
-    } catch (error) {
-      console.error(error)
-      setHasError(true)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    // Función para obtener el contenido actualizado
-    fetchContent()
-
-    // Actualiza el contenido cada 10 segundos
-    const interval = setInterval(fetchContent, 10000)
-
-    // Limpia el intervalo cuando el componente se desmonta
-    return () => clearInterval(interval)
-  }, [])
-
+export default function Dashboard() {
   return (
-    <div className="brand-panel mx-auto my-8 max-w-4xl p-6 sm:p-9">
-      {loading && (
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-        </div>
-      )}
-      {hasError ? (
-        <div>
-          <span className="bg-green-100 ml-3 text-red-800 text-xs font-medium mr-2 px-2.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
-            Hay error consultado datos Actuales, por favor contacte al soporte
-          </span>
-        </div>
-      ) : (
-        <div>
-          <div className="grid gird-cols-1 md:grid-cols-2 gap-6">
-            <Link to="/recetasFab" className="hover:scale-110 ">
-              <div className="brand-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
-                <div className="flex flex-row space-x-4 items-center">
-                  <div id="stats-1">
-                    <Piece></Piece>
-                  </div>
-                  <Card label={'Reporte de Fabricación'} />
-                </div>
-              </div>
-            </Link>
+    <div className="mx-auto my-10 w-full max-w-5xl px-4 sm:px-6">
+      <header className="mb-7">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">SOMA · Esterilización</p>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">Reportes de autoclaves</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">Consultá ciclos, revisá la trazabilidad de sus fases y generá reportes con las mediciones registradas por los PLC.</p>
+      </header>
 
-            <Link to="/recetasCip" className="hover:scale-110 ">
-              <div className="brand-panel rounded-2xl p-6 transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
-                <div className="flex flex-row space-x-4 items-center">
-                  <div id="stats-1">
-                    <Piece></Piece>
-                  </div>
-                  <Card label={'Reporte de CIPSIP'} />
-                </div>
-              </div>
-            </Link>
+      <Link to="/autoclaves/reportes" className="group block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm no-underline transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg sm:p-8">
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Lotes · Telemetría · Fases</span>
+            <h2 className="mt-4 text-xl font-bold text-slate-950">Explorar historial de ciclos</h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">Filtrá por autoclave, estado o fecha. Abrí un lote para ver métricas, duración por fase y curvas de temperatura y presión.</p>
           </div>
+          <span className="brand-button inline-flex items-center justify-center gap-2 px-5 py-3 text-sm">Ver lotes <span aria-hidden="true">→</span></span>
         </div>
-      )}
+      </Link>
     </div>
   )
 }
-
-export default Dashboard

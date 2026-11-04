@@ -6,11 +6,7 @@ import Register from './pages/Register'
 import Users from './pages/Users'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
-import SearchRecetasFab from './pages/SearchRecetasFab'
 import Dashboard from './pages/Dashboard'
-import RecetaFabReport from './pages/RecetaFabReport'
-import RecetaCipReport from './pages/RecetaCipReport'
-import SearchRecetasCip from './pages/SearchRecetasCip'
 import AutoclaveReport from './pages/AutoclaveReport'
 import PrivateRoute from './components/PrivateRoute'
 import Menu from './components/Menu'
@@ -34,10 +30,6 @@ export default function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/recetasFab" element={<SearchRecetasFab />} />
-              <Route path="/recetasCip" element={<SearchRecetasCip />} />
-              <Route path="/recetaFabReport/:id" element={<RecetaFabReport />} />
-              <Route path="/recetaCipReport/:id" element={<RecetaCipReport />} />
               <Route path="/autoclaves/reportes" element={<AutoclaveReport />} />
               <Route path="/autoclaves/reportes/:loteId" element={<AutoclaveReport />} />
             </Route>

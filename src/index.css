@@ -30,8 +30,17 @@ button, input {
 }
 
 @media print {
-  body { background: #fff; }
-  nav, form, button { display: none !important; }
-  main { color: #0f172a; }
-  article, section { break-inside: avoid; box-shadow: none !important; }
+  @page { margin: 14mm; }
+  body, #root { min-width: 0; background: #fff !important; }
+  body * { visibility: hidden !important; }
+  .report-print-area, .report-print-area * { visibility: visible !important; }
+  .report-print-area {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    color: #0f172a;
+  }
+  .screen-only { display: none !important; }
+  .report-print-area article, .report-print-area section { break-inside: avoid; box-shadow: none !important; }
+  .report-print-area svg { max-width: 100%; }
 }

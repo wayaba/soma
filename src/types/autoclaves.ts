@@ -19,10 +19,29 @@ export interface Lote {
 
 export interface PuntoTelemetria {
   timestamp: string
-  temp1: number
-  temp2: number
-  presion: number
-  fase: number
+  meta?: { autoclaveId: number; loteId: string | null }
+  temp1?: number
+  temp2?: number
+  presion?: number
+  fase?: number
+}
+
+export interface ReferenciaFase { _id: number; faseNum: number; nombre: string; activo: boolean }
+export interface ReferenciaEstado { _id: number; estadoId: number; codigo: string; nombre: string; descripcion: string; color: string }
+export interface ReferenciaMaquina { _id: number; autoclaveId: number; codigo: string; nombre: string; descripcion: string; activo: boolean }
+export interface ReferenciasAutoclaves {
+  fases: ReferenciaFase[]
+  estados: ReferenciaEstado[]
+  maquinas: ReferenciaMaquina[]
+}
+
+export interface FiltrosLotes {
+  autoclaveId?: number
+  estado?: number
+  desde?: string
+  hasta?: string
+  lote?: string
+  limit?: number
 }
 
 export interface MetricasLote {
