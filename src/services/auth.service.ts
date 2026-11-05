@@ -1,8 +1,9 @@
 import axios, { type AxiosResponse } from 'axios'
 import authHeader from './auth-header'
 import type { User } from '@/types/types'
+import { env } from '@/lib/env'
 
-const API_URL = 'http://localhost:5000/api/auth/'
+const API_URL = `${env.BACKEND_URI}/api/auth/`
 
 export const authService = {
   login(username: string, password: string): Promise<User> {
